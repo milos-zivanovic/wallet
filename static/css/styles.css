@@ -1,0 +1,17 @@
+.income {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.expense {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.create-transaction-form label {
+    min-width: 130px;
+}
+
+.create-transaction-form h2 {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>{{ month }} {{ year }}</h2>
+        <a href="{% url 'transaction_create' %}" class="btn btn-primary">Dodaj novu transakciju</a>
+    </div>
+    <div class="col-md-6">
+        <h5>Ukupan prihod: {{ total_income|floatformat:2|intcomma }} RSD</h5>
+        <h5>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h5>
+        <h5>Trenutno stanje: {{ balance|floatformat:2|intcomma }} RSD</h5>
+    </div>
+</div>
+
+<hr/>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Iznos</th>
+            <th>Naslov</th>
+            <th>Kategorija</th>
+            <th>Opis</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr class="{% if transaction.transaction_type == 'income' %}income{% elif transaction.transaction_type == 'expense' %}expense{% endif %}">
+            <td>{{ transaction.created_at|date:"d.m.Y. H:i" }}</td>
+            <td>{{ transaction.type_sign }}{{ transaction.amount|floatformat:2|intcomma }} RSD</td>
+            <td>{{ transaction.title }}</td>
+            <td>{{ transaction.category }}</td>
+            <td>{{ transaction.description }}</td>
+            <td>
+                <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+                <a href="{% url 'transaction_delete' transaction.pk %}" class="btn">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

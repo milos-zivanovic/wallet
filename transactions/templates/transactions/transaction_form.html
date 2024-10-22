@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" class="create-transaction-form">
+    <h2>{% if form.instance.pk %}Izmeni transakciju{% else %}Dodaj novu transakciju{% endif %}</h2>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Sačuvaj</button>
+</form>
+<a href="{% url 'transaction_list' %}" class="btn btn-secondary" style="margin-top: 30px;">
+    Povratak na listu transakcija
+</a>
+{% endblock %}
