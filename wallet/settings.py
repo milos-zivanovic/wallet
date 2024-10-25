@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Other apps
+    # Third party apps
+    'django.contrib.humanize',
+    'django_select2',
+
+    # My apps
     'transactions',
-    'django.contrib.humanize',  # For number formatting
 ]
 
 MIDDLEWARE = [
