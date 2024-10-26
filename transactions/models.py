@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 
 class CategoryGroup(models.Model):
     name = models.CharField(max_length=100)
+    name_with_html = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -40,7 +41,7 @@ class Transaction(models.Model):
 
     @property
     def full_category_str(self):
-        return f'{self.category.category_group.name} / {self.category.name}' if self.category else ''
+        return f'{self.category.category_group.name_with_html} / {self.category.name}' if self.category else ''
 
     def __str__(self):
         return f'{self.type_sign}{str(self.amount)} {self.title}'
