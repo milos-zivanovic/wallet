@@ -13,10 +13,10 @@ def populate_initial_data(apps, schema_editor):
         # Expenses
         'ostalo': ['ostalo'],
         'nabavka': ['hrana, piće i hemija', 'odeća i obuća', 'ostalo'],
-        'helena i emilija': ['vrtić', 'igračke', 'ostalo'],
+        'helena <i class="bi bi-heart-fill" style="color: red;"></i> Emilija': ['vrtić', 'igračke', 'ostalo'],
         'kuća': ['računi', 'ulaganja', 'troškovi', 'ostalo'],
-        'miloš i marija': ['ostalo'],
-        'zdravlje': ['lekari', 'apoteke', 'ostalo'],
+        'miloš <i class="bi bi-heart-fill" style="color: red;"></i> Marija': ['ostalo'],
+        'zdravlje': ['lekari', 'apoteka', 'ostalo'],
         'auto': ['gorivo', 'održavanje', 'ostalo'],
         'kompjuteri i mobilni': ['mesečna rata', 'ostalo'],
 
