@@ -33,7 +33,9 @@ def transaction_create(request):
     if request.method == 'POST':
         form = TransactionForm(request.POST)
         if form.is_valid():
-            form.save()
+            transaction = form.save(commit=False)
+            transaction.user = request.user
+            transaction.save()
             return redirect('transaction_list')
     else:
         form = TransactionForm()
