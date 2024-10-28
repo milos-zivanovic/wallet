@@ -41,8 +41,10 @@ class Transaction(models.Model):
 
     @property
     def full_category_str(self):
+        if not self.category:
+            return ''
         cg = self.category.category_group
-        return f'{cg.name_with_html if cg.name_with_html else cg.name} / {self.category.name}' if self.category else ''
+        return f'{cg.name_with_html if cg.name_with_html else cg.name} / {self.category.name}'
 
     def __str__(self):
         return f'{self.type_sign}{str(self.amount)} {self.title}'

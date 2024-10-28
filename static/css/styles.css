@@ -8,10 +8,10 @@
     color: #721c24;
 }
 
-.create-transaction-form label {
+.basic-form label {
     min-width: 130px;
 }
 
-.create-transaction-form h2 {
+.basic-form h2 {
     margin-bottom: 20px;
 }

@@ -4,13 +4,16 @@ from .models import Category, Transaction
 
 
 class TransactionForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=Category.objects.select_related('category_group').all())
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.select_related('category_group').all(),
+        widget=Select2Widget,
+        label="Kategorija"
+    )
 
     class Meta:
         model = Transaction
         fields = ['transaction_type', 'title', 'amount', 'category', 'description']
         widgets = {
-            'category': Select2Widget,
             'amount': forms.NumberInput(attrs={
                 'inputmode': 'numeric',
                 'style': 'appearance: none; -moz-appearance: textfield;',
@@ -20,7 +23,6 @@ class TransactionForm(forms.ModelForm):
             'transaction_type': 'Tip',
             'title': 'Naslov',
             'amount': 'Iznos',
-            'category': 'Kategorija',
             'description': 'Opis transakcije',
         }
 
