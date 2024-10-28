@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Transaction
+from .models import Transaction, CategoryGroup
 from .forms import TransactionForm
 from django.utils import timezone
 from django.db.models import Sum
@@ -26,6 +26,24 @@ def transaction_list(request):
         'balance': balance,
         'month': months[today.month - 1],
         'year': today.year
+    })
+
+
+def transaction_chart(request):
+    labels, data, total = [], [], 0
+    for cg in CategoryGroup.objects.all():
+        labels.append(cg.name)
+        cg_total = Transaction.objects.filter(
+            category__category_group=cg
+        ).aggregate(total_sum=Sum('amount'))['total_sum'] or 0
+        cg_total = float(cg_total)
+        data.append(cg_total)
+        total += cg_total
+
+    return render(request, 'transactions/transaction_chart.html', {
+        'labels': labels,
+        'data': data,
+        'total': total,
     })
 
 
