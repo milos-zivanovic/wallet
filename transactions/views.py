@@ -31,14 +31,12 @@ def transaction_list(request):
 
 def transaction_chart(request):
     labels, data, total = [], [], 0
-    for cg in CategoryGroup.objects.all():
+    for cg in CategoryGroup.objects.all().exclude(name__icontains='plata'):
         labels.append(cg.name)
         cg_total = Transaction.objects.filter(
             category__category_group=cg,
             transaction_type=Transaction.EXPENSE,
             is_deleted=False
-        ).exclude(
-            category__category_group__name__icontains='plata'
         ).aggregate(total_sum=Sum('amount'))['total_sum'] or 0
         cg_total = float(cg_total)
         data.append(cg_total)
