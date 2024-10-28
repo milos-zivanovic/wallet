@@ -34,7 +34,9 @@ def transaction_chart(request):
     for cg in CategoryGroup.objects.all():
         labels.append(cg.name)
         cg_total = Transaction.objects.filter(
-            category__category_group=cg, is_deleted=False
+            category__category_group=cg,
+            transaction_type=Transaction.EXPENSE,
+            is_deleted=False
         ).aggregate(total_sum=Sum('amount'))['total_sum'] or 0
         cg_total = float(cg_total)
         data.append(cg_total)
