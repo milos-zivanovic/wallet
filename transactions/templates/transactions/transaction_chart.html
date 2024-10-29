@@ -3,9 +3,13 @@
 
 {% block content %}
 
-<h2>Ukupan rashod: {{ total|floatformat:2|intcomma }} RSD</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Ukupan rashod: {{ total|floatformat:2|intcomma }} RSD</h2>
+        <canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
+    </div>
+</div>
 
-<canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('categoryChart').getContext('2d');

@@ -3,15 +3,19 @@
 
 {% block content %}
 
-<h2>Obriši transakciju</h2>
-<p>Da li ste sigurni da želite da obrišete transakciju ispod?</p>
-<p>- Naslov: {{ transaction.title }}</p>
-<p>- Iznos: {{ transaction.type_sign }}{{ transaction.amount|floatformat:2|intcomma }} RSD</p>
-<p>- Datum: {{ transaction.created_at|date:"d.m.Y. H:i" }}</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Da, obriši</button>
-    <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Ne</a>
-</form>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Obriši transakciju</h2>
+        <p>Da li ste sigurni da želite da obrišete transakciju ispod?</p>
+        <p>- Naslov: {{ transaction.title }}</p>
+        <p>- Iznos: {{ transaction.type_sign }}{{ transaction.amount|floatformat:2|intcomma }} RSD</p>
+        <p>- Datum: {{ transaction.created_at|date:"d.m.Y. H:i" }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Da, obriši</button>
+            <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Ne</a>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

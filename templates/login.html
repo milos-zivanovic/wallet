@@ -3,12 +3,14 @@
 {% block content %}
 
 <div class="row">
-    <form method="post" action="{% url 'login' %}" class="basic-form">
-        <h2>Ulogujte se</h2>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Nastavi</button>
-    </form>
+    <div class="col-md-12">
+        <form method="post" action="{% url 'login' %}" class="basic-form">
+            <h2>Ulogujte se</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Nastavi</button>
+        </form>
+    </div>
 </div>
 
 {% endblock %}
