@@ -2,6 +2,7 @@
 {% load humanize %}
 
 {% block content %}
+
 <h2>Obriši transakciju</h2>
 <p>Da li ste sigurni da želite da obrišete transakciju ispod?</p>
 <p>- Naslov: {{ transaction.title }}</p>
@@ -12,4 +13,5 @@
     <button type="submit" class="btn btn-danger">Da, obriši</button>
     <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Ne</a>
 </form>
+
 {% endblock %}

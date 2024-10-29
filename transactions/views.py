@@ -63,16 +63,15 @@ def transaction_create(request):
 
 
 def transaction_edit(request, pk):
-    raise NotImplemented()
-    # transaction = get_object_or_404(Transaction, pk=pk)
-    # if request.method == 'POST':
-    #     form = TransactionForm(request.POST, instance=transaction)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('transaction_list')
-    # else:
-    #     form = TransactionForm(instance=transaction)
-    # return render(request, 'transactions/transaction_form.html', {'form': form})
+    transaction = get_object_or_404(Transaction, pk=pk)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            form.save()
+            return redirect('transaction_list')
+    else:
+        form = TransactionForm(instance=transaction)
+    return render(request, 'transactions/transaction_form.html', {'form': form})
 
 
 def transaction_delete(request, pk):

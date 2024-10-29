@@ -38,9 +38,9 @@
             <td>{{ transaction.full_category_str|safe }}</td>
             <td>{{ transaction.user.email|trim_email }}</td>
             <td>
-<!--                <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">-->
-<!--                    <i class="bi bi-pencil-fill"></i>-->
-<!--                </a>-->
+                <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
                 <a href="{% url 'transaction_delete' transaction.pk %}" class="btn">
                     <i class="bi bi-trash-fill"></i>
                 </a>
@@ -49,4 +49,5 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
