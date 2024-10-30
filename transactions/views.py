@@ -50,6 +50,10 @@ def transaction_overview(request):
         labels = [o['category__category_group__name'] for o in grouped_data]
         data = [float(o['total_amount']) for o in grouped_data]
 
+        raise ValueError(template_data | {
+            'labels': labels,
+            'data': data,
+        })
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': labels,
             'data': data,
