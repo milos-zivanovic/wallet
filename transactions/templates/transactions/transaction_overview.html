@@ -37,7 +37,8 @@
             </div>
             <br/>
             <div class="form-row">
-                <button type="submit" class="btn btn-primary">Pretraga</button>
+                <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
+                <a href="?from_date={{ current_date }}&to_date={{ current_date }}&show={{ show }}">Danas</a>
             </div>
         </form>
     </div>
@@ -45,7 +46,9 @@
 
 <br/>
 
-<div class="row">
+{% if show == 'table' %}
+
+    <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered table-striped">
             <thead>
@@ -83,20 +86,20 @@
             </tbody>
         </table>
     </div>
-</div>
+    </div>
 
-<div class="row pagination">
+    <div class="row pagination">
     <div class="col-md-12">
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1{{ get_params }}" aria-label="Prva">
+                        <a class="page-link" href="?page=1{{ query_params }}" aria-label="Prva">
                             <span aria-hidden="true">&laquo;&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ get_params }}" aria-label="Prethodna">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ query_params }}" aria-label="Prethodna">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -106,18 +109,18 @@
                     {% if num == page_obj.number %}
                         <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}{{ get_params }}">{{ num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}{{ query_params }}">{{ num }}</a></li>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ get_params }}" aria-label="Sledeća">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ query_params }}" aria-label="Sledeća">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{{ get_params }}" aria-label="Poslednja">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{{ query_params }}" aria-label="Poslednja">
                             <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>
@@ -126,5 +129,55 @@
         </nav>
     </div>
 </div>
+
+{% elif show == 'chart' %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h2>
+            <canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    const categoryChart = new Chart(ctx, {
+        type: 'bar',  // Change to 'pie' for a pie chart
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Rashodi po kategorijama',
+                data: {{ data|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+{% endif  %}
 
 {% endblock %}

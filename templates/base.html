@@ -23,7 +23,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'transaction_list' %}">Novčanik</a>
+            <a class="navbar-brand" href="{% url 'transaction_overview' %}">Novčanik</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -31,13 +31,13 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'transaction_list' %}">Transakcije</a>
+                            <a class="nav-link" href="{% url 'transaction_create' %}">Nova transakcija</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'transaction_create' %}">Nova Transakcija</a>
+                            <a class="nav-link" href="{% url 'transaction_overview' %}">Transakcije</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'transaction_chart' %}">Grafikon rashoda</a>
+                            <a class="nav-link" href="{% url 'transaction_overview' %}?show=chart">Grafikon rashoda</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Izlogujte se</a>
