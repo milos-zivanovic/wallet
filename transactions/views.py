@@ -41,19 +41,23 @@ def transaction_overview(request):
         })
     # Prepare chart data
     elif show == 'chart':
-        grouped_data = (
+        tmp_grouped_data = (
             filterset.qs
             .filter(transaction_type=Transaction.EXPENSE)
             .values('category__category_group__name')
             .annotate(total_amount=Sum('amount'))
         )
-        labels = [o['category__category_group__name'] for o in grouped_data]
-        data = [float(o['total_amount']) for o in grouped_data]
+        grouped_data = {}
+        for o in tmp_grouped_data:
+            if o['category__category_group__name'] in grouped_data:
+                grouped_data[o['category__category_group__name']] += o['total_amount']
+            else:
+                grouped_data[o['category__category_group__name']] = o['total_amount']
+        labels, data = [], []
+        for name, amount in grouped_data.items():
+            labels.append(name)
+            data.append(float(amount))
 
-        raise ValueError(template_data | {
-            'labels': labels,
-            'data': data,
-        })
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': labels,
             'data': data,
