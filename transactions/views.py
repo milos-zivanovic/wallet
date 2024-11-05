@@ -82,9 +82,14 @@ def transaction_overview(request):
                 labels.append(name)
                 data.append(float(amount))
 
+        # Reorder labels and data
+        combined = list(zip(labels, data))
+        combined.sort(key=lambda x: x[1], reverse=True)
+        labels, data = zip(*combined)
+
         return render(request, 'transactions/transaction_overview.html', template_data | {
-            'labels': labels,
-            'data': data,
+            'labels': list(labels),
+            'data': list(data),
         })
     else:
         raise NotImplemented()
