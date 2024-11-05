@@ -2,7 +2,7 @@ import django_filters
 from django import forms
 from django.utils import timezone
 from datetime import datetime
-from .models import Transaction
+from .models import Transaction, CategoryGroup
 
 
 class TransactionFilter(django_filters.FilterSet):
@@ -20,10 +20,15 @@ class TransactionFilter(django_filters.FilterSet):
         method='filter_to_date',
         widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'})
     )
+    category_group = django_filters.ModelChoiceFilter(
+        field_name='category__category_group',
+        queryset=CategoryGroup.objects.all(),
+        label='Kategorija'
+    )
 
     class Meta:
         model = Transaction
-        fields = ['from_date', 'to_date']
+        fields = ['from_date', 'to_date', 'category_group']
 
     def filter_from_date(self, queryset, name, value):
         start_datetime = timezone.make_aware(datetime.combine(value, datetime.min.time()))

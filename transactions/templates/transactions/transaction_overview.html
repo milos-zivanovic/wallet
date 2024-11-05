@@ -36,9 +36,17 @@
                 </div>
             </div>
             <br/>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
-                <a href="?from_date={{ current_date }}&to_date={{ current_date }}&show={{ show }}">Danas</a>
+            <div class="form-row" style="display: block ruby;">
+                <div class="form-group col-md-6">
+                    {{ filterset.form.category_group.label_tag }}
+                    {{ filterset.form.category_group }}
+                </div>
+                <div class="form-group col-md-6">
+
+                    <input type="hidden" name="show" value="{{ show }}">
+                    <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
+                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&show={{ show }}">Danas</a>
+                </div>
             </div>
         </form>
     </div>

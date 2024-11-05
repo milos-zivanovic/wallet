@@ -10,6 +10,7 @@ from .filters import TransactionFilter
 def transaction_overview(request):
     # Filter transactions
     show = request.GET.get('show', 'table').lower()
+    category_group = request.GET.get('category_group', '')
     today = timezone.now()
     filterset = TransactionFilter(request.GET,
                                   queryset=Transaction.objects.filter(is_deleted=False).order_by('-created_at'))
@@ -25,6 +26,7 @@ def transaction_overview(request):
         'total_expense': total_expense,
         'balance': balance,
         'balance_class': 'income' if balance > 0 else 'expense',
+        'category_group': category_group,
         'current_date': today.strftime('%Y-%m-%d'),
     }
 
@@ -41,22 +43,44 @@ def transaction_overview(request):
         })
     # Prepare chart data
     elif show == 'chart':
-        tmp_grouped_data = (
-            filterset.qs
-            .filter(transaction_type=Transaction.EXPENSE)
-            .values('category__category_group__name')
-            .annotate(total_amount=Sum('amount'))
-        )
-        grouped_data = {}
-        for o in tmp_grouped_data:
-            if o['category__category_group__name'] in grouped_data:
-                grouped_data[o['category__category_group__name']] += o['total_amount']
-            else:
-                grouped_data[o['category__category_group__name']] = o['total_amount']
-        labels, data = [], []
-        for name, amount in grouped_data.items():
-            labels.append(name)
-            data.append(float(amount))
+
+        # Collect labels and data for categories related to provided category group
+        if category_group:
+            tmp_grouped_data = (
+                filterset.qs
+                .filter(category__category_group_id=category_group, transaction_type=Transaction.EXPENSE)
+                .values('category__name')
+                .annotate(total_amount=Sum('amount'))
+            )
+            grouped_data = {}
+            for o in tmp_grouped_data:
+                if o['category__name'] in grouped_data:
+                    grouped_data[o['category__name']] += o['total_amount']
+                else:
+                    grouped_data[o['category__name']] = o['total_amount']
+            labels, data = [], []
+            for name, amount in grouped_data.items():
+                labels.append(name)
+                data.append(float(amount))
+
+        # Collect labels and data all category groups
+        else:
+            tmp_grouped_data = (
+                filterset.qs
+                .filter(transaction_type=Transaction.EXPENSE)
+                .values('category__category_group__name')
+                .annotate(total_amount=Sum('amount'))
+            )
+            grouped_data = {}
+            for o in tmp_grouped_data:
+                if o['category__category_group__name'] in grouped_data:
+                    grouped_data[o['category__category_group__name']] += o['total_amount']
+                else:
+                    grouped_data[o['category__category_group__name']] = o['total_amount']
+            labels, data = [], []
+            for name, amount in grouped_data.items():
+                labels.append(name)
+                data.append(float(amount))
 
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': labels,
