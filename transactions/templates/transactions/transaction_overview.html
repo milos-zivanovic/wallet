@@ -6,19 +6,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h2>
-            {% if filterset.form.from_date.value %}
-                {{ filterset.form.from_date.value }}
-            {% else %}
-                2023-12-31
-            {% endif %}
-            -
-            {% if filterset.form.to_date.value %}
-                {{ filterset.form.to_date.value }}
-            {% else %}
-                2029-01-01
-            {% endif %}
-        </h2>
+        <h2>{{ from_date }} - {{ to_date }}</h2>
         <h5>Ukupan prihod: {{ total_income|floatformat:2|intcomma }} RSD</h5>
         <h5>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h5>
         <h5>Trenutno stanje: <span class="{{ balance_class }}">{{ balance|floatformat:2|intcomma }} RSD</span></h5>
@@ -141,9 +129,10 @@
 {% elif show == 'chart' %}
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-bottom: 50px;">
             <h2>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h2>
-            <canvas id="categoryChart" style="max-width: 100%; height: auto; margin-botom: 50px;"></canvas>
+            <h4>Broj dana: {{ days_diff }}</h4>
+            <canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
         </div>
     </div>
 

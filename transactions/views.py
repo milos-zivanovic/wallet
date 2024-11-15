@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db.models import Sum
@@ -12,6 +13,11 @@ def transaction_overview(request):
     show = request.GET.get('show', 'table').lower()
     category_group = request.GET.get('category_group', '')
     today = timezone.now()
+    from_date, to_date = '2023-12-31', '2029-01-01'
+    if 'from_date' in request.GET and request.GET['from_date']:
+        from_date = request.GET['from_date']
+    if 'to_date' in request.GET and request.GET['to_date']:
+        to_date = request.GET['to_date']
     filterset = TransactionFilter(request.GET,
                                   queryset=Transaction.objects.filter(is_deleted=False).order_by('-created_at'))
 
@@ -22,6 +28,8 @@ def transaction_overview(request):
     template_data = {
         'show': show,
         'filterset': filterset,
+        'from_date': from_date,
+        'to_date': to_date,
         'total_income': total_income,
         'total_expense': total_expense,
         'balance': balance,
@@ -85,11 +93,12 @@ def transaction_overview(request):
         # Reorder labels and data
         combined = list(zip(labels, data))
         combined.sort(key=lambda x: x[1], reverse=True)
-        labels, data = zip(*combined)
+        labels, data = zip(*combined or [('/', 0)])
 
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': list(labels),
             'data': list(data),
+            'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days,
         })
     else:
         raise NotImplemented()
