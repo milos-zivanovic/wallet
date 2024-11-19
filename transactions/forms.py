@@ -12,7 +12,7 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ['transaction_type', 'title', 'amount', 'category', 'description']
+        fields = ['transaction_type', 'title', 'amount', 'category', 'description', 'is_fixed']
         widgets = {
             'amount': forms.NumberInput(attrs={
                 'inputmode': 'numeric',
@@ -24,6 +24,7 @@ class TransactionForm(forms.ModelForm):
             'title': 'Naslov',
             'amount': 'Iznos',
             'description': 'Opis transakcije',
+            'is_fixed': 'Fiksno',
         }
 
     def __init__(self, *args, **kwargs):

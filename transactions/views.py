@@ -12,6 +12,7 @@ def transaction_overview(request):
     # Filter transactions
     show = request.GET.get('show', 'table').lower()
     category_group = request.GET.get('category_group', '')
+    is_fixed = request.GET.get('is_fixed', '')
     today = timezone.now()
     from_date, to_date = '2023-12-31', '2029-01-01'
     if 'from_date' in request.GET and request.GET['from_date']:
@@ -35,6 +36,7 @@ def transaction_overview(request):
         'balance': balance,
         'balance_class': 'income' if balance > 0 else 'expense',
         'category_group': category_group,
+        'is_fixed': is_fixed,
         'current_date': today.strftime('%Y-%m-%d'),
     }
 

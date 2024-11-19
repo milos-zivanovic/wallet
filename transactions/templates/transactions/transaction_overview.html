@@ -30,10 +30,16 @@
                     {{ filterset.form.category_group }}
                 </div>
                 <div class="form-group col-md-6">
-
+                    {{ filterset.form.is_fixed.label_tag }}
+                    {{ filterset.form.is_fixed }}
+                </div>
+            </div>
+            <br/>
+            <div class="form-row" style="display: block ruby;">
+                <div class="form-group col-md-12">
                     <input type="hidden" name="show" value="{{ show }}">
                     <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
-                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&show={{ show }}">Danas</a>
+                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_fixed={{ is_fixed }}&show={{ show }}">Danas</a>
                 </div>
             </div>
         </form>
@@ -54,6 +60,7 @@
                     <th>Naslov</th>
                     <th>Kategorija</th>
                     <th>Korisnik</th>
+                    <th>Fiksno</th>
                     <th>Akcije</th>
                 </tr>
             </thead>
@@ -65,6 +72,7 @@
                         <td>{{ transaction.title }}</td>
                         <td>{{ transaction.full_category_str|safe }}</td>
                         <td>{{ transaction.user.email|trim_email }}</td>
+                        <td>{{ transaction.is_fixed|yesno:"Da,Ne" }}</td>
                         <td>
                             <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">
                                 <i class="bi bi-pencil-fill"></i>
