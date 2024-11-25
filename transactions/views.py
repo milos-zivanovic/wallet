@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db.models import Sum
 from django.core.paginator import Paginator
-from .models import Transaction
-from .forms import TransactionForm
+from .models import Budget, Transaction
+from .forms import BudgetForm, TransactionForm
 from .filters import TransactionFilter
 
 
@@ -138,3 +138,19 @@ def transaction_delete(request, pk):
         transaction.save()
         return redirect('transaction_overview')
     return render(request, 'transactions/transaction_confirm_delete.html', {'transaction': transaction})
+
+
+def budget_list(request):
+    budgets = Budget.objects.all().order_by('-start_date')
+    return render(request, 'budgets/budget_list.html', {'budgets': budgets})
+
+
+def budget_create(request):
+    if request.method == 'POST':
+        form = BudgetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('budget_list')
+    else:
+        form = BudgetForm()
+    return render(request, 'budgets/budget_form.html', {'form': form})

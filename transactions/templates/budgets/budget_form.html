@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" class="basic-form">
+            <h2>{% if form.instance.pk %}Izmeni budžet{% else %}Dodaj novi budžet{% endif %}</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Sačuvaj</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

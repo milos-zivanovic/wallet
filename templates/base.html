@@ -40,6 +40,12 @@
                             <a class="nav-link" href="{% url 'transaction_overview' %}?show=chart">Grafikon rashoda</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'budget_create' %}">Novi budžet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'budget_list' %}">Budžeti</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Izlogujte se</a>
                         </li>
                     {% else %}
