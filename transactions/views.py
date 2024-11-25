@@ -100,7 +100,7 @@ def transaction_overview(request):
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': list(labels),
             'data': list(data),
-            'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days,
+            'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1,
         })
     else:
         raise NotImplemented()
