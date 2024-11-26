@@ -141,7 +141,7 @@ def transaction_delete(request, pk):
 
 
 def budget_list(request):
-    budgets = Budget.objects.all().order_by('category_id')
+    budgets = Budget.objects.all().order_by('category__category_group_id', 'category_id')
     return render(request, 'budgets/budget_list.html', {'budgets': budgets})
 
 
