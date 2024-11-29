@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from transactions.models import Budget
+from .models import Budget
 from .forms import BudgetForm
 
 

@@ -1,7 +1,7 @@
 from django import forms
 from django_select2.forms import Select2Widget
 from transactions.models import Category
-from transactions.models import Budget
+from .models import Budget
 
 
 class BudgetForm(forms.ModelForm):
