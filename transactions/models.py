@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth import get_user_model
-from categories.models import Category as NewCategory
+from categories.models import Category
 
 
 class Transaction(models.Model):
@@ -14,7 +14,7 @@ class Transaction(models.Model):
     ]
 
     transaction_type = models.CharField(max_length=7, choices=TRANSACTION_TYPES, default=EXPENSE)
-    new_category = models.ForeignKey(NewCategory, related_name='test_transactions', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='transactions', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=255, blank=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
