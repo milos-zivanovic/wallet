@@ -10,7 +10,8 @@
                 <tr>
                     <th>Kategorija</th>
                     <th>Period</th>
-                    <th>Iznos</th>
+                    <th>Potrošeno / Budžet</th>
+                    <th>Procenat</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,7 +19,16 @@
                     <tr>
                         <td>{{ budget.category|safe }}</td>
                         <td>{{ budget.start_date|date:"d.m.Y" }} - {{ budget.end_date|date:"d.m.Y" }}</td>
-                        <td>{{ budget.amount|floatformat:2|intcomma }} RSD</td>
+                        <td>
+                            {{ budget.total_spent|floatformat:2|intcomma }} RSD
+                            /
+                            {{ budget.amount|floatformat:2|intcomma }} RSD
+                        </td>
+                        <td>
+                            <span class="{% if budget.percentage_spent > 100 %}text-danger{% else %}text-success{% endif %}">
+                                {{ budget.percentage_spent|floatformat:2 }}%
+                            </span>
+                        </td>
                     </tr>
                 {% empty %}
                     <tr>
