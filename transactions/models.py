@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
+from categories.models import Category as NewCategory
 
 
 class CategoryGroup(models.Model):
@@ -61,6 +62,7 @@ class Transaction(models.Model):
 
     transaction_type = models.CharField(max_length=7, choices=TRANSACTION_TYPES, default=EXPENSE)
     category = models.ForeignKey(Category, related_name='transactions', on_delete=models.CASCADE)
+    new_category = models.ForeignKey(NewCategory, related_name='test_transactions', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=255, blank=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
