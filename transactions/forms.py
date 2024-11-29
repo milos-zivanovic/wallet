@@ -1,6 +1,7 @@
 from django import forms
 from django_select2.forms import Select2Widget
-from .models import Category, Transaction
+from categories.models import Category
+from .models import Transaction
 
 
 class TransactionForm(forms.ModelForm):

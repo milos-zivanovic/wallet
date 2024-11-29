@@ -4,7 +4,7 @@ from categories.models import Category
 
 
 class Budget(models.Model):
-    category = models.ForeignKey(Category, related_name='test_budgets', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='budgets', on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])

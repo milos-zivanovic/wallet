@@ -2,7 +2,8 @@ import django_filters
 from django import forms
 from django.utils import timezone
 from datetime import datetime
-from .models import Transaction, CategoryGroup
+from categories.models import CategoryGroup
+from .models import Transaction
 
 
 class TransactionFilter(django_filters.FilterSet):
