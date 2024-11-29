@@ -9,7 +9,8 @@ def budget_list(request):
     active_budgets = Budget.objects.filter(
         start_date__lte=today, end_date__gte=today
     ).order_by('category__category_group_id', 'category_id')
-    return render(request, 'budgets/budget_list.html', {'budgets': active_budgets})
+    budgets = sorted(active_budgets, key=lambda budget: budget.percentage_spent, reverse=True)
+    return render(request, 'budgets/budget_list.html', {'budgets': budgets})
 
 
 def budget_create(request):
