@@ -14,7 +14,8 @@ def transaction_overview(request):
     category_group = request.GET.get('category_group', '')
     is_fixed = request.GET.get('is_fixed', '')
     today = timezone.now()
-    from_date, to_date = '2023-12-31', '2029-01-01'
+    from_date = Transaction.objects.order_by('created_at').first().created_at.strftime('%Y-%m-%d')
+    to_date = datetime.now().strftime('%Y-%m-%d')
     if 'from_date' in request.GET and request.GET['from_date']:
         from_date = request.GET['from_date']
     if 'to_date' in request.GET and request.GET['to_date']:
