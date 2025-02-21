@@ -46,7 +46,7 @@ def transaction_overview(request):
     # Prepare table data
     if show == 'table':
         page_number = request.GET.get('page', 1)
-        paginator = Paginator(filterset.qs, 10)
+        paginator = Paginator(filterset.qs, 20)
         page_obj = paginator.get_page(page_number)
         query_params = ''.join([f'&{key}={value}' for key, value in request.GET.items() if key != 'page'])
 
