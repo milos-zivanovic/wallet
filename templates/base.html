@@ -91,6 +91,9 @@
                             'title': request.term
                         },
                         success: function(data) {
+                            data.sort(function(a, b) {
+                                return a.label.length - b.label.length;
+                            });
                             response(data);
                         }
                     });
