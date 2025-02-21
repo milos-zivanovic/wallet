@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.transaction_create, name='transaction_create'),
     path('edit/<int:pk>/', views.transaction_edit, name='transaction_edit'),
     path('delete/<int:pk>/', views.transaction_delete, name='transaction_delete'),
+    path('title-suggestions/', views.title_suggestions, name='title_suggestions'),
 ]

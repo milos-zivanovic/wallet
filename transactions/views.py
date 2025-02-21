@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db.models import Sum
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from .models import Transaction
 from .forms import TransactionForm
 from .filters import TransactionFilter
@@ -39,6 +40,7 @@ def transaction_overview(request):
         'category_group': category_group,
         'is_fixed': is_fixed,
         'current_date': today.strftime('%Y-%m-%d'),
+        'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1,
     }
 
     # Prepare table data
@@ -101,7 +103,6 @@ def transaction_overview(request):
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': list(labels),
             'data': list(data),
-            'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1,
         })
     else:
         raise NotImplemented()
@@ -139,3 +140,26 @@ def transaction_delete(request, pk):
         transaction.save()
         return redirect('transaction_overview')
     return render(request, 'transactions/transaction_confirm_delete.html', {'transaction': transaction})
+
+
+def title_suggestions(request):
+    title = request.GET.get('title', '')
+    if not title:
+        return JsonResponse([], safe=False)
+
+    suggestions = Transaction.objects.filter(
+        title__icontains=title, is_deleted=False
+    ).values(
+        'title', 'transaction_type', 'category', 'is_fixed'
+     )
+
+    return JsonResponse(
+        [{
+            'label': suggestion['title'],
+            'value': suggestion['title'],
+            'transaction_type': suggestion['transaction_type'],
+            'category': suggestion['category'],
+            'is_fixed': suggestion['is_fixed']
+        } for suggestion in suggestions],
+        safe=False
+    )

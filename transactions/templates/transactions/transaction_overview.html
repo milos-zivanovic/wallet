@@ -10,6 +10,7 @@
         <h5>Ukupan prihod: {{ total_income|floatformat:2|intcomma }} RSD</h5>
         <h5>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h5>
         <h5>Trenutno stanje: <span class="{{ balance_class }}">{{ balance|floatformat:2|intcomma }} RSD</span></h5>
+        <h5>Broj dana: {{ days_diff }}</span></h5>
     </div>
     <div class="col-md-6">
         <form method="get" class="mb-4 basic-form">
@@ -73,7 +74,7 @@
                         <td>{{ transaction.full_category_str|safe }}</td>
                         <td>{{ transaction.user.email|trim_email }}</td>
                         <td>{{ transaction.is_fixed|yesno:"Da,Ne" }}</td>
-                        <td>
+                        <td class="links">
                             <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
@@ -138,8 +139,6 @@
 
     <div class="row">
         <div class="col-md-12" style="padding-bottom: 50px;">
-            <h2>Ukupan rashod: {{ total_expense|floatformat:2|intcomma }} RSD</h2>
-            <h4>Broj dana: {{ days_diff }}</h4>
             <canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
         </div>
     </div>

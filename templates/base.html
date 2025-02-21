@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 </head>
@@ -64,12 +66,41 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('#id_category').select2();
             $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd',  // Format to match Django's date format
+                format: 'yyyy-mm-dd',
                 autoclose: true,
                 todayHighlight: true,
                 weekStart: 1
+            });
+
+            $('#id_category').select2();
+            $('#id_category').on('change', function() {
+                let selectedText = $("#id_category option:selected").text().trim().toLowerCase();
+                if (selectedText.includes("nabavka")) {
+                    $("#id_is_fixed").prop("checked", true);
+                } else {
+                    $("#id_is_fixed").prop("checked", false);
+                }
+            });
+
+            $("#id_title").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "{% url 'title_suggestions' %}",
+                        data: {
+                            'title': request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 4,
+                select: function(event, ui) {
+                    $('#id_transaction_type').val(ui.item.transaction_type);
+                    $('#id_category').val(ui.item.category).trigger('change');
+                    $('#id_is_fixed').prop('checked', ui.item.is_fixed);
+                }
             });
         });
     </script>

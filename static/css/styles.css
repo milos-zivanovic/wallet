@@ -20,3 +20,27 @@
     font-weight: bold;
     color: #007bff;
 }
+
+#navbarNav a {
+    font-size: 18px;
+}
+
+tr.income td, tr.expense td {
+    vertical-align: middle;
+}
+
+tr.income td.links, tr.expense td.links {
+    padding: 0;
+}
+
+tr.income td.links a, tr.expense td.links a {
+    padding: 15px 20px;
+}
+
+tr.income td.links a:last-of-type, tr.expense td.links a:last-of-type {
+    padding-right: 0;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.3);
+}
