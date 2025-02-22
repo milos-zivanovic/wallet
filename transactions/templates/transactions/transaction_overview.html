@@ -59,9 +59,9 @@
                     <th>Datum</th>
                     <th>Iznos</th>
                     <th>Naslov</th>
-                    <th>Opis</th>
                     <th>Kategorija</th>
                     <th>Korisnik</th>
+                    <th>Opis</th>
                     <th>Fiksno</th>
                     <th>Akcije</th>
                 </tr>
@@ -72,9 +72,9 @@
                         <td>{{ transaction.created_at|date:"d.m.Y. H:i" }}</td>
                         <td>{{ transaction.type_sign }}{{ transaction.amount|floatformat:2|intcomma }} RSD</td>
                         <td>{{ transaction.title }}</td>
-                        <td>{{ transaction.description|truncatechars:25 }}</td>
                         <td>{{ transaction.full_category_str|safe }}</td>
                         <td>{{ transaction.user.email|trim_email }}</td>
+                        <td>{{ transaction.description|truncatechars:25 }}</td>
                         <td>{{ transaction.is_fixed|yesno:"Da,Ne" }}</td>
                         <td class="links">
                             <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">
