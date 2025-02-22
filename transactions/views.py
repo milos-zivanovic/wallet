@@ -151,7 +151,7 @@ def title_suggestions(request):
         title__icontains=title, is_deleted=False
     ).values(
         'title', 'transaction_type', 'category', 'is_fixed'
-     )
+    ).distinct()
 
     return JsonResponse(
         [{
