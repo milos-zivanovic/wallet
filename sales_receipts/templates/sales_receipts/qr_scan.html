@@ -3,21 +3,27 @@
 {% block title %}QR Kod Skeniranje{% endblock %}
 
 {% block content %}
-    <h1>QR Kod Skeniranje</h1>
-
-    <video id="camera" autoplay></video>
-    <button onclick="capture()">Slikaj</button>
-
-    <canvas id="canvas" style="display: none;"></canvas>
-    <img id="photo" style="display: none;" />
-
-    <form id="upload-form" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="image" id="image-data">
-        <button type="submit">Pošalji na server</button>
-    </form>
-
-    <p>Rezultat: <span id="result"></span></p>
+    <div class="row">
+        <div class="col-md-6">
+            <video id="camera" autoplay></video>
+            <br/>
+            <button class="btn btn-primary" onclick="capture()">Slikaj</button>
+        </div>
+        <div class="col-md-6">
+            <canvas id="canvas" style="display: none;"></canvas>
+            <img id="photo" style="display: none;" />
+            <form id="upload-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="image" id="image-input">
+                <button class="btn btn-primary" type="submit">Pošalji na server</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>Rezultat: <span id="result"></span></p>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
@@ -26,11 +32,30 @@
     const photo = document.getElementById("photo");
     const imageDataInput = document.getElementById("image-data");
 
-    // Otvori kameru
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => { video.srcObject = stream; })
-        .catch((err) => { console.error("Kamera nije dostupna:", err); });
+    // Pokretanje kamere - koristi zadnju kameru ako je dostupna
+    navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            // Pronađi zadnju kameru
+            const backCamera = devices.find(device => device.kind === "videoinput" && device.label.toLowerCase().includes("back"));
 
+            const constraints = {
+                video: {
+                    deviceId: backCamera ? { exact: backCamera.deviceId } : undefined,
+                    facingMode: { ideal: "environment" }  // Podesi kameru na zadnju
+                }
+            };
+
+            // Pokreni kameru
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((err) => {
+                    console.error("Kamera nije dostupna:", err);
+                });
+        });
+
+    // Funkcija za slikanje
     function capture() {
         const context = canvas.getContext("2d");
         canvas.width = video.videoWidth;
@@ -48,9 +73,10 @@
     document.getElementById("upload-form").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        fetch("{% url 'qr_upload' %}", {
+        const formData = new FormData(this);
+        fetch("{% url 'sales_receipts:qr_upload' %}", {
             method: "POST",
-            body: new FormData(this),
+            body: formData,
         })
         .then(response => response.json())
         .then(data => {
@@ -58,4 +84,18 @@
         })
         .catch(error => console.error("Greška:", error));
     });
+{% endblock %}
+
+{% block style %}
+    <style>
+        #camera {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 {% endblock %}

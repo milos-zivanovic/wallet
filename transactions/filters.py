@@ -40,7 +40,7 @@ class TransactionFilter(django_filters.FilterSet):
         field_name='title',
         lookup_expr='icontains',
         label="Naslov",
-        widget=forms.TextInput(attrs={'style': 'position: fixed;'})
+        widget=forms.TextInput(attrs={'style': 'position: absolute;'})
     )
 
     class Meta:
