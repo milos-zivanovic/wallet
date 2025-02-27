@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}QR Kod Skeniranje{% endblock %}
+
+{% block content %}
+    <h1>QR Kod Skeniranje</h1>
+
+    <video id="camera" autoplay></video>
+    <button onclick="capture()">Slikaj</button>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+    <img id="photo" style="display: none;" />
+
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="image" id="image-data">
+        <button type="submit">Pošalji na server</button>
+    </form>
+
+    <p>Rezultat: <span id="result"></span></p>
+{% endblock %}
+
+{% block script %}
+    const video = document.getElementById("camera");
+    const canvas = document.getElementById("canvas");
+    const photo = document.getElementById("photo");
+    const imageDataInput = document.getElementById("image-data");
+
+    // Otvori kameru
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => { video.srcObject = stream; })
+        .catch((err) => { console.error("Kamera nije dostupna:", err); });
+
+    function capture() {
+        const context = canvas.getContext("2d");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Konvertuj sliku u Base64 format
+        const imageData = canvas.toDataURL("image/png");
+        photo.src = imageData;
+        photo.style.display = "block";
+        imageDataInput.value = imageData; // Postavi vrednost za slanje
+    }
+
+    // AJAX slanje slike
+    document.getElementById("upload-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        fetch("{% url 'qr_upload' %}", {
+            method: "POST",
+            body: new FormData(this),
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("result").innerText = data.result;
+        })
+        .catch(error => console.error("Greška:", error));
+    });
+{% endblock %}
