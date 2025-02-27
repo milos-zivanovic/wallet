@@ -37,10 +37,17 @@
             </div>
             <br/>
             <div class="form-row" style="display: block ruby;">
+                <div class="form-group col-md-6">
+                    {{ filterset.form.title.label_tag }}
+                    {{ filterset.form.title }}
+                </div>
+            </div>
+            <br/>
+            <div class="form-row" style="display: block ruby;">
                 <div class="form-group col-md-12">
                     <input type="hidden" name="show" value="{{ show }}">
                     <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
-                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_fixed={{ is_fixed }}&show={{ show }}">Danas</a>
+                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_fixed={{ is_fixed }}&title={{ title }}&show={{ show }}">Danas</a>
                 </div>
             </div>
         </form>

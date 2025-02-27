@@ -36,10 +36,16 @@ class TransactionFilter(django_filters.FilterSet):
             ]
         )
     )
+    title = django_filters.CharFilter(
+        field_name='title',
+        lookup_expr='icontains',
+        label="Naslov",
+        widget=forms.TextInput(attrs={'style': 'position: fixed;'})
+    )
 
     class Meta:
         model = Transaction
-        fields = ['from_date', 'to_date', 'category_group', 'is_fixed']
+        fields = ['from_date', 'to_date', 'category_group', 'is_fixed', 'title']
 
     def filter_from_date(self, queryset, name, value):
         start_datetime = timezone.make_aware(datetime.combine(value, datetime.min.time()))

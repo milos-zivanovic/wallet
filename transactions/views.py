@@ -14,6 +14,7 @@ def transaction_overview(request):
     show = request.GET.get('show', 'table').lower()
     category_group = request.GET.get('category_group', '')
     is_fixed = request.GET.get('is_fixed', '')
+    title = request.GET.get('title', '')
     today = timezone.now()
     from_date = Transaction.objects.order_by('created_at').first().created_at.strftime('%Y-%m-%d')
     to_date = datetime.now().strftime('%Y-%m-%d')
@@ -39,6 +40,7 @@ def transaction_overview(request):
         'balance_class': 'income' if balance > 0 else 'expense',
         'category_group': category_group,
         'is_fixed': is_fixed,
+        'title': title,
         'current_date': today.strftime('%Y-%m-%d'),
         'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1,
     }
