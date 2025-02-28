@@ -9,6 +9,7 @@
 }
 
 .basic-form label {
+    min-width: 130px;
     margin-right: 15px;
 }
 
