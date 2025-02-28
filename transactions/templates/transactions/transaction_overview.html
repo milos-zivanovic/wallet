@@ -14,37 +14,37 @@
     </div>
     <div class="col-md-6">
         <form method="get" class="mb-4 basic-form">
-            <div class="form-row" style="display: block ruby;">
-                <div class="form-group col-md-6">
+            <div class="row">
+                <div class="col-md-6">
                     {{ filterset.form.from_date.label_tag }}
                     {{ filterset.form.from_date }}
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     {{ filterset.form.to_date.label_tag }}
                     {{ filterset.form.to_date }}
                 </div>
             </div>
             <br/>
-            <div class="form-row" style="display: block ruby;">
-                <div class="form-group col-md-6">
+            <div class="row">
+                <div class="col-md-6">
                     {{ filterset.form.category_group.label_tag }}
                     {{ filterset.form.category_group }}
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     {{ filterset.form.is_fixed.label_tag }}
                     {{ filterset.form.is_fixed }}
                 </div>
             </div>
             <br/>
-            <div class="form-row" style="display: block ruby;">
-                <div class="form-group col-md-6">
+            <div class="row">
+                <div class="col-md-12">
                     {{ filterset.form.title.label_tag }}
                     {{ filterset.form.title }}
                 </div>
             </div>
             <br/>
-            <div class="form-row" style="display: block ruby;">
-                <div class="form-group col-md-12">
+            <div class="row">
+                <div class="col-md-12">
                     <input type="hidden" name="show" value="{{ show }}">
                     <button type="submit" class="btn btn-primary" style="margin-right: 35px;">Pretraga</button>
                     <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_fixed={{ is_fixed }}&title={{ title }}&show={{ show }}">Danas</a>

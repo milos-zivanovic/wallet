@@ -49,8 +49,7 @@ class TransactionFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
         field_name='title',
         lookup_expr='icontains',
-        label="Naslov",
-        widget=forms.TextInput(attrs={'style': 'position: absolute;'})
+        label='Naslov'
     )
 
     class Meta:
