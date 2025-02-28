@@ -14,7 +14,7 @@
             <img id="photo" style="display: none;" />
             <form id="upload-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="image" id="image-input" style="display: none;">
+                <input type="file" name="image" id="image-input">
                 <button class="btn btn-primary" type="submit">Pošalji na server</button>
             </form>
         </div>
