@@ -9,8 +9,19 @@
 }
 
 .basic-form label {
-    min-width: 130px;
-    margin-right: 15px;
+    min-width: 77px;
+    margin-right: 12px;
+    margin-top: 22px;
+}
+
+.basic-form button.btn-primary {
+    margin-top: 22px;
+    margin-right: 35px
+}
+
+.basic-form a {
+    margin-top: 28px;
+    position: absolute;
 }
 
 .basic-form h2 {

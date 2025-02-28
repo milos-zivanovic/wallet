@@ -24,7 +24,7 @@ class TransactionForm(forms.ModelForm):
             'transaction_type': 'Tip',
             'title': 'Naslov',
             'amount': 'Iznos',
-            'description': 'Opis transakcije',
+            'description': 'Opis',
             'is_fixed': 'Fiksno',
         }
 
