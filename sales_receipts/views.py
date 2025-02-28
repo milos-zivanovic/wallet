@@ -19,14 +19,18 @@ def qr_upload(request):
 
     # Open image with OpenCV
     image = cv2.imread(image_path)
+    if image is None:
+        return JsonResponse({'error': 'Slika nije učitana.'}, status=404)
 
     # Initialize QRCode detector
     detector = cv2.QRCodeDetector()
 
     # Detect and decode QR code using detectAndDecode method
     decoded_text, points, straight_qrcode = detector.detectAndDecode(image)
+    if points is None:
+        return JsonResponse({'error': 'QR kod nije detektovan.'}, status=404)
 
     if decoded_text:
         return JsonResponse({'result': decoded_text}, status=200)
     else:
-        return JsonResponse({'error': 'Greška pri obradi slike.'}, status=404)
+        return JsonResponse({'error': 'QR kod nije pročitan, možda je oštećen ili lošeg kvaliteta.'}, status=404)
