@@ -12,14 +12,24 @@ class TransactionFilter(django_filters.FilterSet):
         lookup_expr='gte',
         label="Početni datum",
         method='filter_from_date',
-        widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'})
+        widget=forms.DateInput(attrs={
+            'class': 'form-control datepicker',
+            'placeholder': 'YYYY-MM-DD',
+            'readonly': 'readonly',
+            'autocomplete': 'off'
+        })
     )
     to_date = django_filters.DateFilter(
         field_name="created_at",
         lookup_expr='lte',
         label="Krajni datum",
         method='filter_to_date',
-        widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'YYYY-MM-DD'})
+        widget=forms.DateInput(attrs={
+            'class': 'form-control datepicker',
+            'placeholder': 'YYYY-MM-DD',
+            'readonly': 'readonly',
+            'autocomplete': 'off'
+        })
     )
     category_group = django_filters.ModelChoiceFilter(
         field_name='category__category_group',
