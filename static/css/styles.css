@@ -11,12 +11,18 @@
 .basic-form label {
     min-width: 77px;
     margin-right: 12px;
-    margin-top: 22px;
 }
 
 .basic-form button.btn-primary {
-    margin-top: 22px;
     margin-right: 35px
+}
+
+.filters-form label {
+    margin-top: 22px;
+}
+
+.filters-form button.btn-primary {
+    margin-top: 22px;
 }
 
 .basic-form a {
