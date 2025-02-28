@@ -1,6 +1,7 @@
+import cv2
 from django.shortcuts import render
 from django.http import JsonResponse
-from PIL import Image
+from django.core.files.storage import default_storage
 
 
 def qr_scan(request):
@@ -9,19 +10,23 @@ def qr_scan(request):
 
 def qr_upload(request):
     if request.method != 'POST' or not request.FILES.get('image'):
-        return JsonResponse({'result': 'Greška u upload-u.'}, status=404)
+        return JsonResponse({'error': 'Greška u upload-u.'}, status=404)
     image_file = request.FILES['image']
 
-    try:
-        image = Image.open(image_file)
-        return JsonResponse({"result": 'Citanje QR koda u fazi implementacije.'}, status=200)
+    # Save the file temporarily to a known location
+    file_path = default_storage.save('temp_image.jpg', image_file)
+    image_path = default_storage.path(file_path)
 
-        # decoded_objects = decode(image)
-        # if decoded_objects:
-        #     qr_text = decoded_objects[0].data.decode("utf-8")
-        #     return JsonResponse({"result": qr_text}, status=200)
-        # else:
-        #     return JsonResponse({"error": "QR kod nije pronađen na slici."}, status=400)
+    # Open image with OpenCV
+    image = cv2.imread(image_path)
 
-    except Exception as e:
-        return JsonResponse({"error": f"Greška pri obradi slike: {str(e)}"}, status=500)
+    # Initialize QRCode detector
+    detector = cv2.QRCodeDetector()
+
+    # Detect and decode QR code using detectAndDecode method
+    decoded_text, points, straight_qrcode = detector.detectAndDecode(image)
+
+    if decoded_text:
+        return JsonResponse({'result': decoded_text}, status=200)
+    else:
+        return JsonResponse({'error': 'Greška pri obradi slike.'}, status=404)
