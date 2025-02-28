@@ -64,8 +64,8 @@ input[type="checkbox"] {
 }
 
 .datepicker-dropdown {
-    min-width: 300px !important;
-    padding: 8px;
+    min-width: 305px !important;
+    padding: 10px;
 }
 
 .datepicker table {
@@ -73,5 +73,5 @@ input[type="checkbox"] {
 }
 
 .datepicker th, .datepicker td {
-    padding: 8px;
+    padding: 10px;
 }
