@@ -16,11 +16,12 @@ isort==5.9.3
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
 packaging==24.1
-Pillow==11.1.0
+pillow==11.1.0
 pipenv==2020.11.15
 platformdirs==2.4.0
 psycopg2==2.9.10
 pylint==2.11.1
+pyzbar==0.1.9
 six==1.15.0
 sqlparse==0.5.1
 toml==0.10.2

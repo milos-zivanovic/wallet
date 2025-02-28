@@ -14,14 +14,14 @@
             <img id="photo" style="display: none;" />
             <form id="upload-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="image" id="image-input">
+                <input type="file" name="image" id="image-input" style="display: none;">
                 <button class="btn btn-primary" type="submit">Pošalji na server</button>
             </form>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p>Rezultat: <span id="result"></span></p>
+            <p>Rezultat: <span id="result" style="font-weight: bold;"></span></p>
         </div>
     </div>
 {% endblock %}
@@ -66,7 +66,17 @@
         const imageData = canvas.toDataURL("image/png");
         photo.src = imageData;
         photo.style.display = "block";
-        imageDataInput.value = imageData; // Postavi vrednost za slanje
+
+        fetch(imageData)
+            .then(res => res.blob())
+            .then(blob => {
+                const file = new File([blob], "image.png", { type: "image/png" });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+
+                const fileInput = document.getElementById("image-input");
+                fileInput.files = dataTransfer.files;
+            });
     }
 
     // AJAX slanje slike
@@ -80,9 +90,18 @@
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("result").innerText = data.result;
+            result_elem = document.getElementById("result")
+            if (data.result) {
+                result_elem.classList.remove("expense");
+                result_elem.classList.add("income");
+                result_elem.innerText = data.result;
+            } else if (data.error) {
+                result_elem.classList.remove("income");
+                result_elem.classList.add("expense");
+                result_elem.innerText = data.error;
+            }
         })
-        .catch(error => console.error("Greška:", error));
+        .catch(error => console.error("Greška pri slanju zahteva:", error));
     });
 {% endblock %}
 
