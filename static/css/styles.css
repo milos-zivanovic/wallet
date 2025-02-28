@@ -44,3 +44,16 @@ tr.income td.links a:last-of-type, tr.expense td.links a:last-of-type {
 input[type="checkbox"] {
     transform: scale(1.3);
 }
+
+.datepicker-dropdown {
+    min-width: 320px !important;
+    padding: 10px;
+}
+
+.datepicker table {
+    width: 100%;
+}
+
+.datepicker th, .datepicker td {
+    padding: 10px;
+}
