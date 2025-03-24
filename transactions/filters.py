@@ -1,6 +1,7 @@
 import django_filters
 from django import forms
 from django.utils import timezone
+from django.db.models import Q
 from datetime import datetime
 from categories.models import CategoryGroup
 from .models import Transaction
@@ -47,9 +48,8 @@ class TransactionFilter(django_filters.FilterSet):
         )
     )
     title = django_filters.CharFilter(
-        field_name='title',
-        lookup_expr='icontains',
-        label='Naslov'
+        method='filter_title_or_description',
+        label='Pretraga'
     )
 
     class Meta:
@@ -63,3 +63,6 @@ class TransactionFilter(django_filters.FilterSet):
     def filter_to_date(self, queryset, name, value):
         end_datetime = timezone.make_aware(datetime.combine(value, datetime.max.time()))
         return queryset.filter(**{f"{name}__lte": end_datetime})
+
+    def filter_title_or_description(self, queryset, name, value):
+        return queryset.filter(Q(title__icontains=value) | Q(description__icontains=value))
