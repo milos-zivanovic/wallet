@@ -5,5 +5,6 @@ app_name = 'sales_receipts'
 
 
 urlpatterns = [
-    # path('qr-scan/', views.qr_scan, name='qr_scan'),
+    path('qr-url/', views.qr_url_form, name='qr_url_form'),
+    path('qr-url/upload/', views.qr_url_upload, name='qr_url_upload'),
 ]
