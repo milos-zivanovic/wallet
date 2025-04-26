@@ -105,6 +105,7 @@
                     select: function(event, ui) {
                         $('#id_transaction_type').val(ui.item.transaction_type);
                         $('#id_category').val(ui.item.category).trigger('change');
+                        $('#id_is_agency_related').prop('checked', ui.item.is_agency_related);
                         $('#id_is_fixed').prop('checked', ui.item.is_fixed);
                     }
                 });

@@ -30,21 +30,25 @@
                     {{ filterset.form.category_group }}
                 </div>
                 <div class="col-md-6">
+                    {{ filterset.form.is_agency_related.label_tag }}
+                    {{ filterset.form.is_agency_related }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ filterset.form.title.label_tag }}
+                    {{ filterset.form.title }}
+                </div>
+                <div class="col-md-6">
                     {{ filterset.form.is_fixed.label_tag }}
                     {{ filterset.form.is_fixed }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    {{ filterset.form.title.label_tag }}
-                    {{ filterset.form.title }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
                     <input type="hidden" name="show" value="{{ show }}">
                     <button type="submit" class="btn btn-primary">Pretraga</button>
-                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_fixed={{ is_fixed }}&title={{ title }}&show={{ show }}">Danas</a>
+                    <a href="?from_date={{ current_date }}&to_date={{ current_date }}&category_group={{ category_group }}&is_agency_related={{ is_agency_related }}&is_fixed={{ is_fixed }}&title={{ title }}&show={{ show }}">Danas</a>
                 </div>
             </div>
         </form>
@@ -66,6 +70,7 @@
                     <th>Kategorija</th>
                     <th>Korisnik</th>
                     <th>Opis</th>
+                    <th>Got. račun</th>
                     <th>Fiksno</th>
                     <th>Akcije</th>
                 </tr>
@@ -79,6 +84,7 @@
                         <td>{{ transaction.full_category_str|safe }}</td>
                         <td>{{ transaction.user.email|trim_email }}</td>
                         <td>{{ transaction.description|truncatechars:25 }}</td>
+                        <td>{{ transaction.is_agency_related|yesno:"Da,Ne" }}</td>
                         <td>{{ transaction.is_fixed|yesno:"Da,Ne" }}</td>
                         <td class="links">
                             <a href="{% url 'transaction_edit' transaction.pk %}" class="btn">

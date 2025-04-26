@@ -13,6 +13,7 @@ def transaction_overview(request):
     # Filter transactions
     show = request.GET.get('show', 'table').lower()
     category_group = request.GET.get('category_group', '')
+    is_agency_related = request.GET.get('is_agency_related', '')
     is_fixed = request.GET.get('is_fixed', '')
     title = request.GET.get('title', '')
     today = timezone.now()
@@ -39,6 +40,7 @@ def transaction_overview(request):
         'balance': balance,
         'balance_class': 'income' if balance > 0 else 'expense',
         'category_group': category_group,
+        'is_agency_related': is_agency_related,
         'is_fixed': is_fixed,
         'title': title,
         'current_date': today.strftime('%Y-%m-%d'),
@@ -153,7 +155,7 @@ def title_suggestions(request):
     if datetime.now().month != 12:
         suggestions = suggestions.exclude(category_id=18)  # Exclude "Slava" category if not December
     suggestions = suggestions.values(
-        'title', 'transaction_type', 'category', 'is_fixed'
+        'title', 'transaction_type', 'category', 'is_agency_related', 'is_fixed'
     ).distinct()
 
     return JsonResponse(
@@ -162,7 +164,8 @@ def title_suggestions(request):
             'value': suggestion['title'],
             'transaction_type': suggestion['transaction_type'],
             'category': suggestion['category'],
-            'is_fixed': suggestion['is_fixed']
+            'is_agency_related': suggestion['is_agency_related'],
+            'is_fixed': suggestion['is_fixed'],
         } for suggestion in suggestions],
         safe=False
     )

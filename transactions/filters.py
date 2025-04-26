@@ -37,6 +37,16 @@ class TransactionFilter(django_filters.FilterSet):
         queryset=CategoryGroup.objects.all(),
         label='Kategorija'
     )
+    is_agency_related = django_filters.BooleanFilter(
+        label='Got. račun',
+        widget=forms.Select(
+            choices=[
+                ('', '---------'),
+                ('true', 'Da'),
+                ('false', 'Ne')
+            ]
+        )
+    )
     is_fixed = django_filters.BooleanFilter(
         label='Fiksno',
         widget=forms.Select(
@@ -54,7 +64,7 @@ class TransactionFilter(django_filters.FilterSet):
 
     class Meta:
         model = Transaction
-        fields = ['from_date', 'to_date', 'category_group', 'is_fixed', 'title']
+        fields = ['from_date', 'to_date', 'category_group', 'is_agency_related', 'is_fixed', 'title']
 
     def filter_from_date(self, queryset, name, value):
         start_datetime = timezone.make_aware(datetime.combine(value, datetime.min.time()))

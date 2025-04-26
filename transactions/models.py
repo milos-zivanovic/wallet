@@ -19,6 +19,7 @@ class Transaction(models.Model):
     description = models.CharField(max_length=255, blank=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    is_agency_related = models.BooleanField(default=False)  # Means that it's related to 'Web Victory'
     is_fixed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
