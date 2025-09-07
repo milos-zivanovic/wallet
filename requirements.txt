@@ -12,14 +12,21 @@ django-heroku==0.3.1
 django-select2==8.2.1
 filelock==3.0.12
 gunicorn==23.0.0
+importlib_metadata==8.7.0
 isort==5.9.3
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
+numpy==2.0.2
+opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
 packaging==24.1
+pillow==11.1.0
 pipenv==2020.11.15
 platformdirs==2.4.0
 psycopg2==2.9.10
+pygal==3.0.5
 pylint==2.11.1
+pyzbar==0.1.9
 six==1.15.0
 sqlparse==0.5.1
 toml==0.10.2
@@ -30,3 +37,4 @@ virtualenv-clone==0.5.4
 virtualenvwrapper-win==1.2.6
 whitenoise==6.7.0
 wrapt==1.13.3
+zipp==3.23.0

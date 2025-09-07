@@ -97,7 +97,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                            <td colspan="6" class="text-center">Nema rezultata.</td>-->
+                            <td colspan="9" class="text-center">Nema rezultata.</td>-->
                     </tr>
                 {% endfor %}
             </tbody>
@@ -152,6 +152,12 @@
     <div class="row">
         <div class="col-md-12" style="padding-bottom: 50px;">
             <canvas id="categoryChart" style="max-width: 100%; height: auto;"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="padding-bottom: 50px;">
+            {{ chart_svg|safe }}
         </div>
     </div>
 

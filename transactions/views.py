@@ -1,4 +1,5 @@
-from datetime import datetime
+import pygal
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db.models import Sum
@@ -30,6 +31,7 @@ def transaction_overview(request):
     total_income = filterset.qs.filter(transaction_type=Transaction.INCOME).aggregate(Sum('amount'))['amount__sum'] or 0
     total_expense = filterset.qs.filter(transaction_type=Transaction.EXPENSE).aggregate(Sum('amount'))['amount__sum'] or 0
     balance = total_income - total_expense
+    days_diff = (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1
     template_data = {
         'show': show,
         'filterset': filterset,
@@ -44,7 +46,7 @@ def transaction_overview(request):
         'is_fixed': is_fixed,
         'title': title,
         'current_date': today.strftime('%Y-%m-%d'),
-        'days_diff': (datetime.strptime(to_date, "%Y-%m-%d") - datetime.strptime(from_date, "%Y-%m-%d")).days + 1,
+        'days_diff': days_diff,
     }
 
     # Prepare table data
@@ -104,9 +106,31 @@ def transaction_overview(request):
         combined.sort(key=lambda x: x[1], reverse=True)
         labels, data = zip(*combined or [('/', 0)])
 
+        # Calculate daily saldo
+        balance_by_day, saldo = {}, 0
+        from_date_obj = datetime.strptime(from_date, "%Y-%m-%d")
+
+        for i in range(days_diff):
+            day = from_date_obj + timedelta(days=i)
+            day_transactions = filterset.qs.filter(created_at__date=day)
+            for t in day_transactions:
+                if t.transaction_type == "income":
+                    saldo += t.amount
+                else:
+                    saldo -= t.amount
+            balance_by_day[day.strftime("%Y-%m-%d")] = saldo
+
+        # Generate Pygal chart
+        chart = pygal.Line(x_label_rotation=20, show_minor_x_labels=False)
+        chart.title = f"Saldo od {from_date} do {to_date}"
+        chart.x_labels = list(balance_by_day.keys())
+        chart.add("Saldo", list(balance_by_day.values()))
+        chart_svg = chart.render(is_unicode=True)
+
         return render(request, 'transactions/transaction_overview.html', template_data | {
             'labels': list(labels),
             'data': list(data),
+            'chart_svg': chart_svg
         })
     else:
         raise NotImplemented()
