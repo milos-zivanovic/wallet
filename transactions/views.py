@@ -18,7 +18,8 @@ def transaction_overview(request):
     is_fixed = request.GET.get('is_fixed', '')
     title = request.GET.get('title', '')
     today = timezone.now()
-    from_date = Transaction.objects.order_by('created_at').first().created_at.strftime('%Y-%m-%d')
+    first_transaction = Transaction.objects.order_by('created_at').first()
+    from_date = (first_transaction.created_at - timedelta(days=1)).strftime('%Y-%m-%d')
     to_date = datetime.now().strftime('%Y-%m-%d')
     if 'from_date' in request.GET and request.GET['from_date']:
         from_date = request.GET['from_date']
@@ -52,7 +53,7 @@ def transaction_overview(request):
     # Prepare table data
     if show == 'table':
         page_number = request.GET.get('page', 1)
-        paginator = Paginator(filterset.qs, 20)
+        paginator = Paginator(filterset.qs, 50)
         page_obj = paginator.get_page(page_number)
         query_params = ''.join([f'&{key}={value}' for key, value in request.GET.items() if key != 'page'])
 
