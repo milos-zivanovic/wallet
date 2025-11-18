@@ -13,7 +13,7 @@ def budget_list(request):
     active_budgets = sorted(active_budgets, key=lambda budget: budget.percentage_spent, reverse=True)
 
     # Get all budgets
-    budgets = Budget.objects.all().order_by('start_date', 'category__category_group_id', 'category_id')
+    budgets = Budget.objects.all().order_by('-start_date', 'category__category_group_id', 'category_id')
 
     return render(request, 'budgets/budget_list.html', {
         'active_budgets': active_budgets,
