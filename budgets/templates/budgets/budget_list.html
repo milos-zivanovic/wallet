@@ -5,6 +5,45 @@
 
 <div class="row">
     <div class="col-md-12">
+        <h2>Aktivni Budzeti</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Kategorija</th>
+                    <th>Period</th>
+                    <th>Potrošeno / Budžet</th>
+                    <th>Procenat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in active_budgets %}
+                    <tr>
+                        <td>{{ budget.category|safe }}</td>
+                        <td>{{ budget.start_date|date:"d.m.Y" }} - {{ budget.end_date|date:"d.m.Y" }}</td>
+                        <td>
+                            {{ budget.total_spent|floatformat:2|intcomma }} RSD
+                            /
+                            {{ budget.amount|floatformat:2|intcomma }} RSD
+                        </td>
+                        <td>
+                            <span class="{% if budget.percentage_spent > 100 %}text-danger{% else %}text-success{% endif %}">
+                                {{ budget.percentage_spent|floatformat:2 }}%
+                            </span>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                            <td colspan="6" class="text-center">Nema rezultata.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Svi Budzeti</h2>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
