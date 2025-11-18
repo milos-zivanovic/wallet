@@ -11,6 +11,7 @@ class Budget(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
+    description = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return f"Budget for {self.category} - {self.amount}"

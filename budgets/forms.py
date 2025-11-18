@@ -13,7 +13,7 @@ class BudgetForm(forms.ModelForm):
 
     class Meta:
         model = Budget
-        fields = ['category', 'start_date', 'end_date', 'amount']
+        fields = ['category', 'start_date', 'end_date', 'amount', 'description']
         widgets = {
             'amount': forms.NumberInput(attrs={
                 'inputmode': 'numeric',
@@ -34,4 +34,5 @@ class BudgetForm(forms.ModelForm):
             'amount': 'Iznos',
             'start_date': 'Početni Datum',
             'end_date': 'Krajnji Datum',
+            'description': 'Opis',
         }
