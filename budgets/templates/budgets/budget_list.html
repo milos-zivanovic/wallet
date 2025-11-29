@@ -5,7 +5,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Aktivni Budzeti</h2>
+        <h3>Aktivni Budzeti</h3>
+        <h5>
+            {{ total_spent|floatformat:2|intcomma }} RSD / {{ total_amount|floatformat:2|intcomma }} RSD
+            <span class="{% if percentage_spent > 100 %}text-danger{% else %}text-success{% endif %}">
+                {{ percentage_spent|floatformat:2 }}%
+            </span>
+        </h5>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -55,7 +61,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Svi Budzeti</h2>
+        <h3>Ostali Budzeti</h3>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
