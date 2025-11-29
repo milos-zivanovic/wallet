@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Obriši budzet</h2>
+        <p>Da li ste sigurni da želite da obrišete budzet ispod?</p>
+        <p>- Kategorija: {{ budget.category|safe }}</p>
+        <p>- Pocetni datum: {{ budget.start_date|date:"d.m.Y" }}</p>
+        <p>- Krajni datum: {{ budget.end_date|date:"d.m.Y" }}</p>
+        <p>- Iznos: {{ budget.amount|floatformat:2|intcomma }} RSD</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Da, obriši</button>
+            <a href="{% url 'budget_list' %}" class="btn btn-secondary">Ne</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
