@@ -25,7 +25,7 @@ def budget_list(request):
         'active_budgets': active_budgets,
         'total_amount': total_amount,
         'total_spent': total_spent,
-        'percentage_spent': (total_spent / total_amount) * 100,
+        'percentage_spent': (total_spent / total_amount) * 100 if total_amount > 0 else 0,
         'budgets': budgets
     })
 

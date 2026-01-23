@@ -18,7 +18,9 @@ class Budget(models.Model):
 
     @property
     def percentage_spent(self):
-        return (self.total_spent / self.amount) * 100
+        if self.amount and self.amount > 0:
+            return (self.total_spent / self.amount) * 100
+        return 0
 
     @property
     def total_spent(self):
