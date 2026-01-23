@@ -1,0 +1,7 @@
+-r requirements.txt
+
+pylint==2.11.1
+isort==5.9.3
+wrapt<1.14
+virtualenvwrapper-win==1.2.6
+pipenv==2020.11.15
