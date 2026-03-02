@@ -18,12 +18,15 @@ class Budget(models.Model):
 
     @property
     def percentage_spent(self):
-        if self.amount and self.amount > 0:
-            return (self.total_spent / self.amount) * 100
-        return 0
+        if self.start_date > date.today() or not self.amount or self.amount <= 0:
+            return 0
+        return (self.total_spent / self.amount) * 100
 
     @property
     def total_spent(self):
+        if self.start_date > date.today():
+            return Decimal(0)
+
         total_spent = Transaction.objects.filter(
             category=self.category,
             transaction_type=Transaction.EXPENSE,

@@ -1,3 +1,4 @@
+from datetime import date
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
@@ -16,10 +17,16 @@ def budget_list(request):
     total_spent = sum(b.total_spent for b in active_budgets)
     active_budgets = sorted(active_budgets, key=lambda budget: budget.percentage_spent, reverse=True)
 
-    # Get all budgets
+    # Get all budgets for current year
+    current_year = date.today().year
     budgets = Budget.objects.exclude(
         start_date__lte=today, end_date__gte=today
-    ).order_by('-start_date', 'category__category_group_id', 'category_id')
+    ).filter(
+        start_date__year__lte=current_year,
+        end_date__year__gte=current_year
+    ).order_by(
+        '-start_date', 'category__category_group_id', 'category_id'
+    )
 
     return render(request, 'budgets/budget_list.html', {
         'active_budgets': active_budgets,
