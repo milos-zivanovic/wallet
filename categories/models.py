@@ -1,11 +1,15 @@
+from datetime import date
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
+from .managers import ActiveCategoryGroupManager, ActiveCategoryManager
 
 
 class CategoryGroup(models.Model):
     name = models.CharField(max_length=100)
-    name_with_html = models.CharField(max_length=150, null=True, blank=True)
+
+    objects = ActiveCategoryGroupManager()
+    all_objects = models.Manager()
 
     def __str__(self):
         return self.name
@@ -23,9 +27,22 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     category_group = models.ForeignKey(CategoryGroup, related_name='categories', on_delete=models.CASCADE)
 
+    # Date range when category is active (static / one time only)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    # Date range when category is active each year (dynamic / repeatedly)
+    start_month = models.PositiveSmallIntegerField(null=True, blank=True)
+    start_day = models.PositiveSmallIntegerField(null=True, blank=True)
+    end_month = models.PositiveSmallIntegerField(null=True, blank=True)
+    end_day = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    objects = ActiveCategoryManager()
+    all_objects = models.Manager()
+
     def __str__(self):
         cg = self.category_group
-        return f'{cg.name_with_html if cg.name_with_html else cg.name} / {self.name}'
+        return f'{cg.name} / {self.name}'
 
     def current_budget(self):
         today = now().date()

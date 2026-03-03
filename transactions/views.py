@@ -176,10 +176,7 @@ def title_suggestions(request):
     if not title:
         return JsonResponse([], safe=False)
 
-    suggestions = Transaction.objects.filter(title__icontains=title, is_deleted=False)
-    if datetime.now().month != 12:
-        suggestions = suggestions.exclude(category_id=18)  # Exclude "Slava" category if not December
-    suggestions = suggestions.values(
+    suggestions = Transaction.objects.filter(title__icontains=title, is_deleted=False).values(
         'title', 'transaction_type', 'category', 'is_agency_related', 'is_fixed'
     ).distinct()
 
