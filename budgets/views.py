@@ -15,7 +15,9 @@ def budget_list(request):
     ).order_by('category__category_group_id', 'category_id')
     total_amount = active_budgets.aggregate(total=Sum('amount'))['total'] or 0
     total_spent = sum(b.total_spent for b in active_budgets)
-    active_budgets = sorted(active_budgets, key=lambda budget: budget.percentage_spent, reverse=True)
+    active_budgets = sorted(
+        active_budgets, key=lambda b: (b.percentage_spent, b.amount), reverse=True
+    )
 
     # Get all budgets for current year
     current_year = date.today().year
