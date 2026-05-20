@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Vežbe</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Opis</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exercise in exercises %}
+                    <tr>
+                        <td>{{ exercise.name }}</td>
+                        <td>{{ exercise.description }}</td>
+                        <td class="links">
+                            <a href="{% url 'exercise_update' exercise.pk %}" class="btn">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a href="{% url 'exercise_delete' exercise.pk %}" class="btn">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">Nema rezultata.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

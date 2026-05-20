@@ -80,6 +80,44 @@
                                 </ul>
                             </li>
 
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="exerciseDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Vežbe
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="exerciseDropdown">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'exercise_create' %}">Nova vežba</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'exercise_list' %}">Vežbe</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="trainingDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Treninzi
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="trainingDropdown">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'training_create' %}">Novi trening</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'training_list' %}">Treninzi</a>
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}">
                                     Izlogujte se

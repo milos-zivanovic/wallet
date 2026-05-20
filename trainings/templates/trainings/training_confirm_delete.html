@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Obriši trening</h2>
+        <p>Da li ste sigurni da želite da obrišete trening ispod?</p>
+        <p>- Naziv: {{ object.name }}</p>
+        <p>- Datum: {{ object.date|date:"d.m.Y" }}</p>
+        <p>- Opis: {{ object.notes }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Da, obriši</button>
+            <a href="{% url 'training_list' %}" class="btn btn-secondary">Ne</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

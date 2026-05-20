@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>{{ training.name }}</h2>
+        <p>Datum: {{ training.date }}</p>
+        <p>{{ training.notes }}</p>
+    </div>
+</div>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" class="basic-form" action="{% url 'training_add_set' training.pk %}">
+            {% csrf_token %}
+            {{ add_set_form.as_p }}
+            <button type="submit" class="btn btn-primary">Dodaj set</button>
+        </form>
+    </div>
+</div>
+
+<br/>
+
+<div class="row">
+    {% for item in training.items.all %}
+        <div class="col-md-6">
+            <h3>{{ item.exercise.name }}</h3>
+            {% if item.notes %}
+                <p>{{ item.notes }}</p>
+            {% endif %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Serija</th>
+                        <th>Težina</th>
+                        <th>Broj ponavljanja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for set in item.sets.all %}
+                        <tr>
+                            <td>{{ set.set_number }}</td>
+                            <td>{{ set.weight }}</td>
+                            <td>{{ set.reps }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

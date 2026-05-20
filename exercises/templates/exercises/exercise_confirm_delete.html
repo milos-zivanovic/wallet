@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Obriši vežbu</h2>
+        <p>Da li ste sigurni da želite da obrišete vežbu ispod?</p>
+        <p>- Naziv: {{ object.name }}</p>
+        <p>- Opis: {{ object.description }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Da, obriši</button>
+            <a href="{% url 'exercise_list' %}" class="btn btn-secondary">Ne</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
