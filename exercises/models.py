@@ -9,6 +9,19 @@ class Exercise(models.Model):
         blank=True,
         null=True,
     )
+    primary_muscle = models.CharField(
+        max_length=20,
+        choices=[
+            ("Grudi", "Grudi"),
+            ("Leđa", "Leđa"),
+            ("Ramena", "Ramena"),
+            ("Biceps", "Biceps"),
+            ("Triceps", "Triceps"),
+            ("Noge", "Noge"),
+            ("Stomak", "Stomak"),
+            ("Kardio", "Kardio"),
+        ]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
