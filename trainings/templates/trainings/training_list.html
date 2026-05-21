@@ -19,14 +19,11 @@
                     <tr>
                         <td>
                             <a href="{% url 'training_detail' training.pk %}" class="text-decoration-none text-reset">
-                                {{ training.name }}
+                                <span style="text-decoration: underline">{{ training.name }}</span>
                             </a>
                         </td>
                         <td>{{ training.date|date:"d.m.Y" }}</td>
                         <td class="links">
-                            <a href="{% url 'training_detail' training.pk %}" class="btn">
-                                <i class="bi bi-eye-fill"></i>
-                            </a>
                             <a href="{% url 'training_update' training.pk %}" class="btn">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
