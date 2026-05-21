@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load static %}
 
 {% block content %}
 
@@ -25,10 +26,15 @@
 
 <br/>
 
-<div class="row">
-    {% for item in training.items.all %}
-        <div class="col-md-6">
-            <h3>{{ item.exercise.name }}</h3>
+{% for item in training.items.all %}
+    <div class="row">
+        <div class="col-md-3" style="display: flex; justify-content: center; align-items: center;">
+            {% if item.exercise.image_name %}
+                <img src="{% static item.exercise.get_image_url %}" height="150">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h3>({{ item.exercise.primary_muscle }}) {{ item.exercise.name }}</h3>
             {% if item.notes %}
                 <p>{{ item.notes }}</p>
             {% endif %}
@@ -51,7 +57,9 @@
                 </tbody>
             </table>
         </div>
-    {% endfor %}
-</div>
+    </div>
+    <hr/>
+    <br/>
+{% endfor %}
 
 {% endblock %}

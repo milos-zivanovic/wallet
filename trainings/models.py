@@ -22,6 +22,9 @@ class TrainingItem(models.Model):
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ["exercise__primary_muscle", "exercise__name"]
+
     def __str__(self):
         return f"{self.training} - {self.exercise}"
 

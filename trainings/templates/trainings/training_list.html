@@ -17,7 +17,11 @@
             <tbody>
                 {% for training in trainings %}
                     <tr>
-                        <td>{{ training.name }}</td>
+                        <td>
+                            <a href="{% url 'training_detail' training.pk %}" class="text-decoration-none text-reset">
+                                {{ training.name }}
+                            </a>
+                        </td>
                         <td>{{ training.date|date:"d.m.Y" }}</td>
                         <td class="links">
                             <a href="{% url 'training_detail' training.pk %}" class="btn">

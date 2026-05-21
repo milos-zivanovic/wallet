@@ -33,3 +33,9 @@ class TrainingAddSetForm(forms.Form):
         label='Težina'
     )
     reps = forms.IntegerField(label='Broj ponavljanja')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["exercise"].label_from_instance = (
+            lambda obj: f"({obj.primary_muscle}) {obj.name}"
+        )
