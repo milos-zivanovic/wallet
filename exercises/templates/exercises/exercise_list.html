@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load static %}
 
 {% block content %}
 
@@ -21,10 +22,9 @@
                     <tr>
                         <td>{{ exercise.name }}</td>
                         <td>
-                            {% if exercise.image %}
-                                <img src="{{ exercise.image.url }}" width="50">
+                            {% if exercise.image_name %}
+                                <img src="{% static exercise.get_image_url %}" height="50">
                             {% endif %}
-
                         </td>
                         <td>{{ exercise.primary_muscle }}</td>
                         <td>{{ exercise.description }}</td>

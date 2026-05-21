@@ -4,11 +4,7 @@ from django.db import models
 class Exercise(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(
-        upload_to="exercises/",
-        blank=True,
-        null=True,
-    )
+    image_name = models.CharField(max_length=100, blank=True, null=True)
     primary_muscle = models.CharField(
         max_length=20,
         choices=[
@@ -29,3 +25,8 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_image_url(self):
+        if self.image_name:
+            return f"images/exercises/{self.image_name}"
+        return None
