@@ -35,8 +35,8 @@
         </div>
         <div class="col-md-9">
             <h3>({{ item.exercise.primary_muscle }}) {{ item.exercise.name }}</h3>
-            {% if item.notes %}
-                <p>{{ item.notes }}</p>
+            {% if item.exercise.description %}
+                <p style="color: darkgrey; font-size: 12px;">{{ item.exercise.description }}</p>
             {% endif %}
             <table class="table table-bordered table-striped">
                 <thead>
