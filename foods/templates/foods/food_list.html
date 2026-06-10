@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Namirnice</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Proteini</th>
+                    <th>Ugljeni hidrati</th>
+                    <th>Masti</th>
+                    <th>Kalorije</th>
+                    <th>Opis</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in foods %}
+                    <tr>
+                        <td>{{ food.name }}</td>
+                        <td>{{ food.protein }}</td>
+                        <td>{{ food.carbs }}</td>
+                        <td>{{ food.fat }}</td>
+                        <td>{{ food.calories }}</td>
+                        <td>{{ food.description }}</td>
+                        <td class="links">
+                            <a href="{% url 'food_edit' food.pk %}" class="btn">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a href="{% url 'food_delete' food.pk %}" class="btn">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">Nema rezultata.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

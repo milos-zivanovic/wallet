@@ -118,6 +118,25 @@
                                 </ul>
                             </li>
 
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="foodDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Namirnice
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="foodDropdown">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'food_create' %}">Nova namirnica</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'food_list' %}">Namirnice</a>
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}">
                                     Izlogujte se

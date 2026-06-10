@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'budgets',
     'exercises',
     'trainings',
+    'foods',
 ]
 
 MIDDLEWARE = [
