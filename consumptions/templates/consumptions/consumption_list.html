@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="mb-1">Nedeljni pregled</h3>
+        <small class="text-muted">
+            {{ start_of_week|date:"d.m.Y." }} → {{ end_of_week|date:"d.m.Y." }}
+        </small>
+    </div>
+</div>
+<div class="row">
+    {% for day in summary %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm h-100
+                {% if day.date == today %}
+                    border-primary border-2
+                {% else %}
+                    border-1
+                {% endif %}
+            ">
+                <div class="card-body
+                    {% if day.date != today %}
+                        text-muted
+                    {% endif %}
+                ">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">{{ day.date|date:"d.m.Y." }}</h5>
+                        <span class="badge bg-light text-dark">
+                            🔥 {{ day.calories|default:0 }} kalorija
+                        </span>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="fw-bold">
+                                {{ day.protein|default:0 }}
+                            </div>
+                            <small class="text-muted">P</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-bold">
+                                {{ day.carbs|default:0 }}
+                            </div>
+                            <small class="text-muted">UH</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-bold">
+                                {{ day.fat|default:0 }}
+                            </div>
+                            <small class="text-muted">M</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                Nema rezultata
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Konzumacija</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Namirnica</th>
+                    <th>Količina</th>
+                    <th>Proteini</th>
+                    <th>Ugljeni hidrati</th>
+                    <th>Masti</th>
+                    <th>Kalorije</th>
+                    <th>Datum</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consumption in consumptions %}
+                    <tr>
+                        <td>{{ consumption.food.name }}</td>
+                        <td>{{ consumption.quantity_grams }}g</td>
+                        <td>{{ consumption.protein }}</td>
+                        <td>{{ consumption.carbs }}</td>
+                        <td>{{ consumption.fat }}</td>
+                        <td>{{ consumption.calories }}</td>
+                        <td>{{ consumption.date|date:"d.m.Y." }}</td>
+                        <td class="links">
+                            <a href="{% url 'consumption_edit' consumption.pk %}" class="btn">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a href="{% url 'consumption_delete' consumption.pk %}" class="btn">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">Nema rezultata.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

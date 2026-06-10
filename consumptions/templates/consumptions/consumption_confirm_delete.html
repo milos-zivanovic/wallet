@@ -5,11 +5,11 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Obriši namirnicu</h2>
-        <p>Da li ste sigurni da želite da obrišete namirnicu ispod?</p>
-        <p><strong>Napomena: ovo ce obrisati i sve vezane konzumacije!</strong></p>
-        <p>- Naziv: {{ food.name }}</p>
-        <p>- Opis: {{ food.description }}</p>
+        <h2>Obriši konzumaciju</h2>
+        <p>Da li ste sigurni da želite da obrišete konzumaciju ispod?</p>
+        <p>- Namirnica: {{ consumption.food.name }}</p>
+        <p>- Količina: {{ consumption.quantity_grams }}g</p>
+        <p>- Datum: {{ consumption.date|date:"d.m.Y." }}</p>
         <form method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Da, obriši</button>
