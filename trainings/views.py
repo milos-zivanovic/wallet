@@ -20,7 +20,7 @@ class TrainingDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["add_set_form"] = TrainingAddSetForm()
+        context["add_set_form"] = TrainingAddSetForm(training=self.object)
         return context
 
 
@@ -48,7 +48,7 @@ class TrainingAddSetView(View):
 
     def post(self, request, pk):
         training = get_object_or_404(Training, pk=pk)
-        form = TrainingAddSetForm(request.POST)
+        form = TrainingAddSetForm(request.POST, training=training)
         if not form.is_valid():
             messages.error(request, "Molimo Vas ispravite greske ispod.")
             return redirect("training_detail", pk=training.pk)

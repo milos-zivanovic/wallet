@@ -6,8 +6,9 @@ from .models import Training
 class TrainingForm(forms.ModelForm):
     class Meta:
         model = Training
-        fields = ["name", "date", "notes"]
+        fields = ["muscle_groups", "date", "notes"]
         widgets = {
+            "muscle_groups": forms.CheckboxSelectMultiple(),
             'date': forms.DateInput(attrs={
                 'type': 'text',
                 'class': 'form-control datepicker',
@@ -15,7 +16,7 @@ class TrainingForm(forms.ModelForm):
             }),
         }
         labels = {
-            'name': 'Naziv',
+            'muscle_groups': 'Mišićne grupe',
             'date': 'Datum',
             'notes': 'Opis',
         }
@@ -23,7 +24,7 @@ class TrainingForm(forms.ModelForm):
 
 class TrainingAddSetForm(forms.Form):
     exercise = forms.ModelChoiceField(
-        queryset=Exercise.objects.all(),
+        queryset=Exercise.objects.none(),
         label='Vežba'
     )
     weight = forms.DecimalField(
@@ -34,8 +35,14 @@ class TrainingAddSetForm(forms.Form):
     )
     reps = forms.IntegerField(label='Broj ponavljanja')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, training=None, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if training:
+            self.fields["exercise"].queryset = Exercise.objects.filter(
+                muscle_group__in=training.muscle_groups.all()
+            ).order_by("muscle_group__name", "name")
+
         self.fields["exercise"].label_from_instance = (
             lambda obj: f"({obj.muscle_group}) {obj.name}"
         )

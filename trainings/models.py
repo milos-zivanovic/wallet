@@ -1,9 +1,9 @@
 from django.db import models
-from exercises.models import Exercise
+from exercises.models import Exercise, MuscleGroup
 
 
 class Training(models.Model):
-    name = models.CharField(max_length=255)
+    muscle_groups = models.ManyToManyField(MuscleGroup, related_name="trainings")
     date = models.DateField()
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -12,7 +12,7 @@ class Training(models.Model):
         ordering = ["-date"]
 
     def __str__(self):
-        return f"{self.name} ({self.date})"
+        return ", ".join(self.muscle_groups.values_list("name", flat=True))
 
 
 class TrainingItem(models.Model):
