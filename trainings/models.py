@@ -23,7 +23,7 @@ class TrainingItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["order", "exercise__primary_muscle", "exercise__name"]
+        ordering = ["order", "exercise__muscle_group", "exercise__name"]
 
     def __str__(self):
         return f"{self.training} - {self.exercise}"

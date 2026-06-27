@@ -37,5 +37,5 @@ class TrainingAddSetForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["exercise"].label_from_instance = (
-            lambda obj: f"({obj.primary_muscle}) {obj.name}"
+            lambda obj: f"({obj.muscle_group}) {obj.name}"
         )

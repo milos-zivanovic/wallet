@@ -26,7 +26,7 @@
                                 <img src="{% static exercise.get_image_url %}" height="50">
                             {% endif %}
                         </td>
-                        <td>{{ exercise.primary_muscle }}</td>
+                        <td>{{ exercise.muscle_group }}</td>
                         <td>{{ exercise.description }}</td>
                         <td class="links">
                             <a href="{% url 'exercise_update' exercise.pk %}" class="btn">
