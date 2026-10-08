@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
@@ -29,6 +30,9 @@ class TrainingCreateView(CreateView):
     form_class = TrainingForm
     template_name = "trainings/training_form.html"
     success_url = reverse_lazy("training_list")
+
+    def get_initial(self):
+        return {"date": timezone.now().date()}
 
 
 class TrainingUpdateView(UpdateView):
